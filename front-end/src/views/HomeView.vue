@@ -1,5 +1,6 @@
 <template>
   <div class="test">
+    <HomeHeader/>
     <FirstContent title="TRUSTED DENTAL HOUSE CENTER DENTISTS" msg1="Exceptional care" msg2="for all age" />
     <div class="second">
       <div class="container s-bor">
@@ -21,6 +22,7 @@
             <div class="vl"></div>
             <p >
               "Every tooth in a man's head is more valuable than a diamond."
+              
             </p>
           </div>
         </div>
@@ -56,6 +58,7 @@
 import FooterView from "@/components/FooterView.vue"
 import FirstContent from "@/components/FirstContent.vue"
 import ForthView from "@/components/ForthView.vue"
+import HomeHeader from "@/components/HomeHeader.vue"
 
 
 export default {
@@ -64,7 +67,9 @@ export default {
     FooterView,
     FirstContent,
     ForthView,
+    HomeHeader,
   }
+  ,
 }
 </script>
 
@@ -72,7 +77,7 @@ export default {
 .first{
   width: 100%;
   height: 100vh;
-  background: linear-gradient(to top, rgb(0,0,0,0.3)50%,rgb(0,0,0,0.3)50%), url(../assets/11.jpg);
+  background: linear-gradient(to top, rgb(0,0,0,0.3) ,rgb(0,0,0,0.3)), url(../assets/11.jpg);
   background-position: center;
   background-size: cover;
 }

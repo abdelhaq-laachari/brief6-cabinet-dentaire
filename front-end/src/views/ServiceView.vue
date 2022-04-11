@@ -1,5 +1,6 @@
 <template>
   <div class="">
+    <HomeHeader/>
     <FirstContent title="GENERAL DENTAL CARE IN DENTAL HOUSE" msg1="Everything you" msg2="expect and then" msg3="some" />
     <div class="second">
       <div class="card-s" data-aos="fade-up" data-aos-duration="1000">
@@ -42,6 +43,7 @@
 import FooterView from "@/components/FooterView.vue"
 import FirstContent from "@/components/FirstContent.vue"
 import ForthView from "@/components/ForthView.vue"
+import HomeHeader from "@/components/HomeHeader.vue"
 
 export default {
   name: 'ServiceView',
@@ -49,6 +51,7 @@ export default {
     FirstContent,
     ForthView,
     FooterView,
+    HomeHeader
   }
 }
 </script>

@@ -4,7 +4,10 @@ import router from './router'
 import store from './store'
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "normalize.css"
+
+
+
+
 
 // call fontawesome 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -15,10 +18,17 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faFacebook } from '@fortawesome/free-brands-svg-icons'
 
 import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-// ..
+import 'aos/dist/aos.css';
+
+
+
+
+
+
 AOS.init();
 
 library.add(fas,far,faFacebook,fab);
 
 createApp(App).component("FIcons",FontAwesomeIcon).use(store).use(router).mount('#app')
+
+

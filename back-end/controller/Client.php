@@ -32,17 +32,42 @@ session_start();
         
     }
 
+    public function MyBooking()
+    {
+        $hashed_key = $_POST['id_client'];
+        $id_client = md5($hashed_key);
+        $methods = new ClientMethods();
+        
+        $var = $methods->MyBooking($id_client);
+
+        if($var)
+        {
+            echo json_encode($var);
+        }
+        else
+        {
+            echo json_encode(0);
+        }
+        
+    }
+    
+    public function SelectSingle($id)
+    {
+        // $id = $_GET['id'];
+        $methods = new ClientMethods();
+        $json= json_encode($methods->SelectSingle($id));
+        echo $json;
+        
+    }
+
 
 
     public function add()
     {
+        echo "add";
         $methods = new ClientMethods();
-        // $email = json_decode(file_get_contents("php://input"));
-        // $message = json_decode(file_get_contents("php://input"));
-        $email = $_POST['email'];
-        $message = $_POST['message'];
-        // if($methods->add($email->email,$message->message) )
-        if($methods->add($email,$message) )
+        
+        if($methods->add())
        {
            http_response_code(200);
            echo json_encode(array("message" => "inserted"));
@@ -54,107 +79,91 @@ session_start();
     }
 
 
-
-
-
-    // dashboard client page
-    public function dashboard()
+    public function SignUp()
     {
-        $error = '';
-    
-        if(!empty($_SESSION['id_client']))
-        {    
-            require_once __DIR__."/../view/dashboard.php";
+        $email = $_POST['email'];
+        $randomKey = strtoupper($_POST['Lname']) . '-' . rand(1000, 9999);
+        
+        $Fname = $_POST['Fname'];
+        $Lname = $_POST['Lname'];
+        $age = $_POST['age'];
+        $phone = $_POST['phone'];
+        $loginKey = md5($randomKey);
+        
+        $logC = new ClientMethods();
+        $var=$logC->SignUp($email,$loginKey,$Fname,$Lname,$age,$phone);
+        
+        if($var)
+        {
+            http_response_code(200);
+            echo json_encode(array("message" => "signUp", "loginKey" => $randomKey));
+        
         }
-        else{
-            require_once __DIR__."/../view/signIn.php";
+        else
+        {
+            http_response_code(400);
+            echo json_encode(array("message" => "error"));
         }
     }
 
-
-
-    // sign in form
-    public function signIn()
+    public function logIn()
     {
-        // error msg
-        $error = "";
-        // require sign in form from view
-        // require_once __DIR__."/../view/signIn.php";
+        $hashed_key = $_POST['loginKey'];
+        $loginKey = md5($hashed_key);
+        echo $loginKey;
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $client = new ClientMethods();
 
-        $logC = new ClientMethods();
-
-        $var=$logC->signInClient2($email,$password);
+        $var=$client->SignIn($loginKey);
         
         if($var)
         {   
-            $_SESSION['id_client'] =$var['id_client'];
-            $_SESSION['email'] = $email;
-            $_SESSION['password'] = $password;
-                
-            // header("Location: http://localhost/youcode/back-end/client/dashboard");
-            echo json_encode(array("message" => "true"));
-            
+            http_response_code(200);
+            echo json_encode(array("message" => "you're logged in"));
         }
         else{
-            $error = "Password or email is incorrect";
-            // require_once __DIR__."/../view/signIn.php";
-            echo json_encode(array("message" => "false"));
+            http_response_code(400);
+            echo json_encode(array("message" => "login key is wrong"));
         }
-
-       
-    }
-
-
-
-    public function SignUp()
+    }                   
+    
+    
+    public function Search()
     {
-        $methods = new ClientMethods();
-        $data = array(
-            "email" => $_POST['email'],
-            "loginKey" => strtoupper($_POST['Fname']) . '-' . rand(1000, 9999),
-            // "loginKey" => $_POST['loginKey'],
-            "Fname" => $_POST['Fname'],
-            "Lname" => $_POST['Lname'],
-            "age" => $_POST['age']
-        );
+        $date = $_POST['date'];
 
-        if($methods->SignUp($data) )
+        $method = new ClientMethods();
+        $var = $method->Search($date);
+        if($var)
         {
             http_response_code(200);
-            echo json_encode(array("message" => "signUp"));
+            echo json_encode($var);
         }
         else
         {
             http_response_code(400);
-            echo json_encode(array("message" => "error"));
+            echo json_encode(array("message" => "not found"));
         }
     }
 
-
-    // log in function 
-    public function logIn()
+    public function Booking()
     {
+        $hashed_key = $_POST['id_client'];
+        $id_client = md5($hashed_key);
+        $id_appointment = $_POST['id_appointment'];
+        $service = $_POST['service'];
         $methods = new ClientMethods();
-        $data = array(
-            "email" => $_POST['email'],
-            "loginKey" => $_POST['loginKey']
-        );
-       
-        if($methods->signInClient($data) )
-        {
-            http_response_code(200);
-            echo json_encode(array("message" => "logIn"));
-        }
-        else
-        {
-            http_response_code(400);
-            echo json_encode(array("message" => "error"));
-        }
+        
+        if($methods->Booking($id_client,$id_appointment,$service))
+       {
+           http_response_code(200);
+           echo json_encode(array("message" => "inserted"));
+       }
+       else{
+           http_response_code(400);
+           echo json_encode(array("message" => "error"));
+       }
     }
-                                                  
 
 }
 

@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import ServiceView from '../views/ServiceView'
 import SignInView from '../views/SignInView'
 import SignUpView from '../views/SignUpView'
+import HomeSearch from '../views/HomeSearch'
+import ResultView from '../views/ResultView'
+import MyBooking from '../views/MyBooking'
 
 const routes = [
   {
@@ -32,6 +35,21 @@ const routes = [
     path: '/signUp',
     name: 'signUp',
     component: SignUpView
+  },
+  {
+    path: '/Search',
+    name: 'HomeSearch',
+    component: HomeSearch
+  },
+  {
+    path: '/result',
+    name: 'ResultView',
+    component: ResultView
+  },
+  {
+    path: '/MyBooking',
+    name: 'MyBooking',
+    component: MyBooking
   },
 ]
 

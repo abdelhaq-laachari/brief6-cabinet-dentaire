@@ -1,15 +1,16 @@
 <template>
   <div class="home">
+    <HomeHeader/>
     <div class="first">
       <div class="content container">
         <div class="title" data-aos="fade-right" data-aos-duration="1000">
           <h1>Welcome Back!</h1>
         </div>
         <div class="form-s" data-aos="fade-left" data-aos-duration="1000">
-          <form action="#" method="POST" >
+          <form  v-on:submit.prevent="signIn()">
             <!-- Key input -->
             <div class="form-outline mb-4">
-              <input type="text" name="text" class="form-control form-control-lg" placeholder="Enter your log in key" required />
+              <input type="text" name="loginKey" class="form-control form-control-lg" placeholder="Enter your log in key" v-model="key" required />
             </div>
             <div class="text-center text-lg-start">
               <button class="btn btn-primary col-6 btn-lg" type="submit" name="submit">Sign In</button>
@@ -27,15 +28,34 @@
 <script>
 
 
-// import FooterView from "@/components/FooterView.vue"
-// import ForthView from "@/components/ForthView.vue"
-
+import HomeHeader from "@/components/HomeHeader.vue"
+import axios from 'axios'
 export default {
   name: 'SignInView',
   components: {
     // ForthView,
-    // FooterView,
-  }
+    HomeHeader,
+  },
+  data() {
+    return {
+    key: '',
+    }
+  },
+  methods: {
+    signIn() {
+    const formData = new FormData()
+    formData.append('loginKey',this.key)
+    axios.post("http://localhost/youcode/back-end/client/login",formData)
+      .then(Response=>{
+          console.log(Response.status);
+          console.log(Response.data);
+          localStorage.setItem('storedData', this.key)
+          this.$router.push({ name: 'HomeSearch' });
+      })
+     
+    },
+  },
+
 }
 </script>
 

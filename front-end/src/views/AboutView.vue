@@ -1,5 +1,6 @@
 <template>
   <div class="about">
+    <HomeHeader/>
     <FirstContent title="ABOUT DENTAL HOUSE" msg1="Building lifetime" msg2="relationships through" msg3="positive experiences" />
     <div class="second">
       <div class="left" data-aos="fade-right" data-aos-duration="1000">
@@ -22,6 +23,7 @@
 import FooterView from "@/components/FooterView.vue"
 import FirstContent from "@/components/FirstContent.vue"
 import ForthView from "@/components/ForthView.vue"
+import HomeHeader from "@/components/HomeHeader.vue"
 
 
 export default {
@@ -29,7 +31,8 @@ export default {
   components: {
     FooterView,
     FirstContent,
-    ForthView
+    ForthView,
+    HomeHeader
   }
 }
 </script>

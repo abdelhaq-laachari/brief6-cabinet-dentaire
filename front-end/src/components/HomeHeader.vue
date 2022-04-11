@@ -22,16 +22,16 @@
           <div class="mx-auto"></div>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/">Home</router-link>
+              <router-link class="nav-link text-light link-r" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-                <router-link class="nav-link text-dark link-r" to="/about">About</router-link>
+                <router-link class="nav-link text-light link-r" to="/about">About</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/service">Service</router-link>
+              <router-link class="nav-link text-light link-r" to="/service">Service</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/signIn">Sign In</router-link>
+              <router-link class="nav-link text-light link-r" to="/signIn">Sign In</router-link>
             </li>
           </ul>
         </div>
