@@ -6,7 +6,7 @@
             <span>{{ title }} </span>
             <h1> {{ msg1 }} <br> {{ msg2 }} <br> {{ msg3 }} </h1>
           </div>
-          <button class="btn btn-info col-3">Book Online</button>
+          <button class="btn btn-info col-3" @click="goToSignIn()" >Book Online</button>
         </div>
       </div>
     </div>
@@ -21,6 +21,11 @@ export default {
     msg2: String,
     msg3: String,
   },
+   methods:{
+   goToSignIn(){
+   this.$router.push('/signIn'); 
+      }
+  }
 } 
 </script>
 

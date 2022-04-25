@@ -31,7 +31,6 @@
                                             width="100%">
                                             <thead>
                                                 <tr>
-                                                    <th>id</th>
                                                     <th>Day Date</th>
                                                     <th>Start Time</th>
                                                     <th>End Time</th>
@@ -40,10 +39,6 @@
                                             </thead>
                                             <tbody>
                                                 <tr v-for="crn in CrnS" :key="crn.id">
-                                                    <td>
-                                                        {{crn.id}}
-                                                        <input type="text" v-model= "crn.id" hidden >
-                                                    </td>
                                                     <td>
                                                         {{crn.date}}
                                                         <input type="text" v-model= "crn.date" hidden >
@@ -60,9 +55,6 @@
                                                         <input type="text" v-model= "crn.id" hidden >
                                                         <button @click="SelectOne(crn.id)" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                             <i class="fa fa-eye"></i>book
-                                                        </button>
-                                                        <button class="btn btn-danger">
-                                                            <i class="fa fa-trash"></i>cancel
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -87,11 +79,11 @@
                         <div class="modal-body">
                             <form v-on:submit.prevent="Booking()" >
                                 <div class="form-group">
-                                    <label for="date">Day</label>
-                                    <input type="text" name="id" class="form-control" v-model= "crn[0].id" readonly >
+                                    <!-- <label for="date">Day</label> -->
+                                    <input type="text" name="id" class="form-control" v-model= "crn[0].id" readonly hidden >
                                 </div>
                                 <div class="form-group">
-                                    <label for="date">Day</label>
+                                    <label for="date">Day Date</label>
                                     <input type="text" name="date" class="form-control" v-model= "date" readonly >
                                 </div>
                                 <div class="form-group">
@@ -107,7 +99,7 @@
                                     <input type="text" name="service" class="form-control" v-model= "service" >
                                 </div>
                                 <div class="form-group">
-                                    <label for="end_date">id client</label>
+                                    <!-- <label for="end_date">id client</label> -->
                                     <input type="text" name="id_client" class="form-control" v-model= "idClient" readonly hidden >
                                 </div>
                                 <div class="modal-footer">
@@ -150,6 +142,7 @@ export default {
         }
         },
     methods: {
+        // search function
         search() {
         const formData = new FormData()
         formData.append('date',this.date)
@@ -160,16 +153,9 @@ export default {
             console.log(this.CrnS)
             console.log(localStorage.getItem('storedData'))
         })
-        // .then(Response=>{
-        //     console.log(Response.status);
-        //     console.log(Response.data);
-        //     localStorage.setItem('storedData', this.key)
-        //     // this.$router.push({ name: 'ResultSearch' });
-        // })
-        
         },
 
-
+        // select one function
         SelectOne(id){
             axios.get(`http://localhost/youcode/back-end/client/selectsingle/${id}`)
             .then(response => {
@@ -185,12 +171,13 @@ export default {
             formData.append('id_appointment',this.crn[0].id)
             formData.append('service',this.service)
             formData.append('id_client',this.idClient)
-            console.log(formData.get('id_client')+" "+formData.get('service')+" "+formData.get('id_appointment'))
+            // console.log(formData.get('id_client')+" "+formData.get('service')+" "+formData.get('id_appointment'))
             axios.post("http://localhost/youcode/back-end/client/Booking",formData)
             .then(Response=>{
                 console.log(Response.status);
                 console.log(Response.data);
                 alert("Your booking has been sent to the administrator. You will be notified when the booking is confirmed.");
+                this.$router.push({ name: 'MyBooking' });
                 
             })
         },

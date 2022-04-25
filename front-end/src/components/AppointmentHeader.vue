@@ -1,11 +1,10 @@
 <template>
-
-<!-- Nav Bar -->
-<div class="home">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <!-- Nav Bar -->
+  <div class="home">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container">
         <!-- <a class="navbar-brand" href="#">Web Zone</a> -->
-        <img src="../assets/S2.png" style="width:130px;" alt="">
+        <img src="../assets/S2.png" style="width: 130px" alt="" />
         <button
           class="navbar-toggler btn-dark"
           type="button"
@@ -22,39 +21,51 @@
           <div class="mx-auto"></div>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/search">Home</router-link>
+              <router-link class="nav-link text-dark link-r" to="/search"
+                >Home</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/MyBooking">My Appointment</router-link>
+              <router-link class="nav-link text-dark link-r" to="/MyBooking"
+                >My Appointment</router-link
+              >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-dark link-r" to="/signIn">Log Out </router-link>
+              <a id="logout" href="" v-on:click="logout" > Log Out </a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-</div>
-
-    
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'AppointmentHeader',
-  components: {
-  }
-}
+  name: "AppointmentHeader",
+  components: {},
+  methods: {
+    logout() {
+      localStorage.removeItem("storedData");
+      this.$router.push("/signIn");
+    },
+  },
+};
 </script>
 
-
 <style scop>
-.link-r{
+.link-r {
   font-weight: 500;
   font-size: 1.1rem;
 }
-
-
+#logout {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #0d6efd;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    color: black;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
 </style>
-
-
