@@ -1,35 +1,13 @@
 <template>
-  <div class="container">
-    <dir></dir>
-    
-  </div>
-  
-  <router-view/>
+  <div class="container"></div>
+  <router-view />
 </template>
 
-
 <script>
-
 export default {
-  name: 'App',
-  components: {
-    
-  },
-}
+  name: "App",
+  components: {},
+};
 </script>
 
-
-
-
-
-
-
-
-<style>
-#app {
-  
-}
-
-
-
-</style>
+<style></style>
