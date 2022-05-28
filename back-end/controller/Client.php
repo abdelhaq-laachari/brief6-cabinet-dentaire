@@ -9,55 +9,72 @@ header("Access-Control-Allow-Methods: *"); // TODO: POST,GET,DELETE,PUT
 header("Access-Control-Allow-Headers:*");
 
 
-require __DIR__."../../model/ClientMethods.php";
+require __DIR__ . "../../model/ClientMethods.php";
 
 session_start();
 
- class Client
+class Client
 {
 
-    // Home Page
-    public function index()
+    // function for fill table auto
+    public function __construct()
     {
-        require_once __DIR__."/../view/home.php";
-        
+        $operation = new ClientMethods();
+        $operation->AutoInsert();
     }
-   
+
     // get client page
     public function get()
     {
         $methods = new ClientMethods();
-        $json= json_encode($methods->getProduct());
+        $json = json_encode($methods->Appointment());
         echo $json;
-        
     }
 
-    public function MyBooking()
+    public function MyBooking($id)
     {
-        $hashed_key = $_POST['id_client'];
+        $hashed_key = $id;
         $id_client = md5($hashed_key);
         $methods = new ClientMethods();
-        
+
         $var = $methods->MyBooking($id_client);
 
-        if($var)
-        {
+        if ($var) {
             echo json_encode($var);
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "error"));
         }
-        else
-        {
-            echo json_encode(0);
-        }
-        
     }
-    
+
+    public function cancel($id)
+    {
+        // $id = $_POST['id'];
+        $cancel = new ClientMethods();
+        $cancel->cancel($id);
+        echo json_encode(array("message" => "canceled"));
+    }
+
     public function SelectSingle($id)
     {
         // $id = $_GET['id'];
         $methods = new ClientMethods();
-        $json= json_encode($methods->SelectSingle($id));
+        $json = json_encode($methods->SelectSingle($id));
         echo $json;
-        
+    }
+
+    public function SelectOne($id)
+    {
+        // $id = $_GET['id'];
+        $methods = new ClientMethods();
+        $json = json_encode($methods->SelectOne($id));
+        if ($json) {
+            http_response_code(200);
+            echo $json;
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "error"));
+        }
     }
 
 
@@ -66,16 +83,14 @@ session_start();
     {
         echo "add";
         $methods = new ClientMethods();
-        
-        if($methods->add())
-       {
-           http_response_code(200);
-           echo json_encode(array("message" => "inserted"));
-       }
-       else{
-           http_response_code(400);
-           echo json_encode(array("message" => "error"));
-       }
+
+        if ($methods->add()) {
+            http_response_code(200);
+            echo json_encode(array("message" => "inserted"));
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "error"));
+        }
     }
 
 
@@ -83,24 +98,20 @@ session_start();
     {
         $email = $_POST['email'];
         $randomKey = strtoupper($_POST['Lname']) . '-' . rand(1000, 9999);
-        
+
         $Fname = $_POST['Fname'];
         $Lname = $_POST['Lname'];
         $age = $_POST['age'];
         $phone = $_POST['phone'];
         $loginKey = md5($randomKey);
-        
+
         $logC = new ClientMethods();
-        $var=$logC->SignUp($email,$loginKey,$Fname,$Lname,$age,$phone);
-        
-        if($var)
-        {
+        $var = $logC->SignUp($email, $loginKey, $Fname, $Lname, $age, $phone);
+
+        if ($var) {
             http_response_code(200);
             echo json_encode(array("message" => "signUp", "loginKey" => $randomKey));
-        
-        }
-        else
-        {
+        } else {
             http_response_code(400);
             echo json_encode(array("message" => "error"));
         }
@@ -114,35 +125,59 @@ session_start();
 
         $client = new ClientMethods();
 
-        $var=$client->SignIn($loginKey);
-        
-        if($var)
-        {   
+        $var = $client->SignIn($loginKey);
+
+        if ($var) {
             http_response_code(200);
             echo json_encode(array("message" => "you're logged in"));
-        }
-        else{
+        } else {
             http_response_code(400);
             echo json_encode(array("message" => "login key is wrong"));
         }
-    }                   
-    
-    
+    }
+
+
     public function Search()
     {
         $date = $_POST['date'];
-
-        $method = new ClientMethods();
-        $var = $method->Search($date);
-        if($var)
-        {
-            http_response_code(200);
-            echo json_encode($var);
+        $day = date("Y-m-d");
+        // echo $day;
+        if ($date == $day) {
+            $method = new ClientMethods();
+            $var = $method->Search($date);
+            if ($var) {
+                http_response_code(200);
+                echo json_encode($var);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "No results found for this date"));
+            }
+        } else {
+            $method = new ClientMethods();
+            $var = $method->SearchTwo($date);
+            if ($var) {
+                http_response_code(200);
+                echo json_encode($var);
+            } else {
+                http_response_code(400);
+                echo json_encode(array("message" => "No results found for this date"));
+            }
         }
-        else
-        {
+    }
+
+    public function update()
+    {
+        $id = $_POST['id'];
+        $service = $_POST['service'];
+
+        $edit = new ClientMethods();
+        $var = $edit->update($id, $service);
+        if ($var) {
+            http_response_code(200);
+            echo json_encode(array("message" => "updated"));
+        } else {
             http_response_code(400);
-            echo json_encode(array("message" => "not found"));
+            echo json_encode(array("message" => "error"));
         }
     }
 
@@ -153,21 +188,13 @@ session_start();
         $id_appointment = $_POST['id_appointment'];
         $service = $_POST['service'];
         $methods = new ClientMethods();
-        
-        if($methods->Booking($id_client,$id_appointment,$service))
-       {
-           http_response_code(200);
-           echo json_encode(array("message" => "inserted"));
-       }
-       else{
-           http_response_code(400);
-           echo json_encode(array("message" => "error"));
-       }
+
+        if ($methods->Booking($id_client, $id_appointment, $service)) {
+            http_response_code(200);
+            echo json_encode(array("message" => "inserted"));
+        } else {
+            http_response_code(400);
+            echo json_encode(array("message" => "error"));
+        }
     }
-
 }
-
-
-
-
-?>
