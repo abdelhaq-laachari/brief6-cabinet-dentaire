@@ -2,7 +2,8 @@
 
 ## Contexte du projet
 ```
-Un cabinet dentaire souhaite informatiser son système de prise de rendez-vous, afin d'offrir aux utilisateurs la possibilité de renseigner leurs informations et de réserver des créneaux pour leurs visites.
+Un cabinet dentaire souhaite informatiser son système de prise de rendez-vous, 
+afin d'offrir aux utilisateurs la possibilité de renseigner leurs informations et de réserver des créneaux pour leurs visites.
 ```
 ## Modalités pédagogiques
 ```
